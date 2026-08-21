@@ -1,0 +1,28 @@
+llama_bench_binary: "/home/ihtgoot/project/llama.cpp/build-release/bin/llama-bench"
+output_dir: "results/swap_study/Q8_0_hybrid_50_50_2p"
+
+experiments:
+  models:
+    - name: "gemma-3-270m-Q8_0"
+      path: "/home/ihtgoot/.cache/huggingface/hub/models--ggml-org--gemma-3-270m-it-GGUF/snapshots/e7647be17ae1108f2f605ed061ca0608b171afff/gemma-3-270m-it-Q8_0.gguf"
+      quantization: "Q8_0"
+
+  threads:
+    - 2
+
+  affinity:
+    - "0,2"
+
+  warmup_runs: 1
+  measurement_runs: 3
+  timeout_seconds: 300
+
+  n_prompt: 512
+  n_gen: 128
+  batch_size: 512
+  ubatch_size: 512
+  load_mode: "mmap"
+
+  perf_enabled: true
+  perf_hardware_events: true
+  perf_uncore_events: false

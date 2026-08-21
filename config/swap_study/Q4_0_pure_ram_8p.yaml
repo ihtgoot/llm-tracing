@@ -1,0 +1,28 @@
+llama_bench_binary: "/home/ihtgoot/project/llama.cpp/build-release/bin/llama-bench"
+output_dir: "results/swap_study/Q4_0_pure_ram_8p"
+
+experiments:
+  models:
+    - name: "gemma-3-270m-Q4_0"
+      path: "/home/ihtgoot/project/models/gemma-3-270m-it-Q4_0.gguf"
+      quantization: "Q4_0"
+
+  threads:
+    - 8
+
+  affinity:
+    - "0,2,4,6,8,10,12,14"
+
+  warmup_runs: 1
+  measurement_runs: 3
+  timeout_seconds: 300
+
+  n_prompt: 512
+  n_gen: 128
+  batch_size: 512
+  ubatch_size: 512
+  load_mode: "mlock"
+
+  perf_enabled: true
+  perf_hardware_events: true
+  perf_uncore_events: false

@@ -1,0 +1,39 @@
+{
+  "experiment_id": "exp_20260815_170050",
+  "system": {
+    "cpu_model": "Intel(R) Core(TM) i7-14700HX",
+    "cpu_count": 28,
+    "p_core_count": 16,
+    "e_core_count": 12,
+    "scaling_governor": "powersave",
+    "turbo_enabled": true,
+    "l3_cache": "33 MiB (1 instance)",
+    "ram_total_kb": 16063080,
+    "kernel_version": "7.1.8-1-cachyos",
+    "os_distribution": "CachyOS",
+    "llama_build_commit": "4801e3c56",
+    "llama_build_number": 0,
+    "llama_build_type": "Release",
+    "llama_binary_path": "/home/ihtgoot/project/llama.cpp/build-release/bin/llama-bench",
+    "compiler_version": "c++ (GCC) 16.2.1 20260810",
+    "perf_version": "perf version 7.1.8-1",
+    "perf_event_paranoia": -1,
+    "perf_hw_available": true,
+    "perf_uncore_available": true
+  },
+  "config": {
+    "llama_bench_binary": "/home/ihtgoot/project/llama.cpp/build-release/bin/llama-bench",
+    "warmup_runs": 1,
+    "measurement_runs": 3,
+    "n_prompt": 512,
+    "n_gen": 128,
+    "batch_size": 512,
+    "ubatch_size": 512,
+    "load_mode": "mmap",
+    "models": [
+      {"name":"gemma-3-270m-it-Q8_0.gguf","path":"/home/ihtgoot/.cache/huggingface/hub/models--ggml-org--gemma-3-270m-it-GGUF/snapshots/e7647be17ae1108f2f605ed061ca0608b171afff/gemma-3-270m-it-Q8_0.gguf","quantization":"Q8_0"}
+    ],
+    "thread_counts": [8],
+    "cpu_affinities": ["16-19,0,2,4,6"]
+  }
+}

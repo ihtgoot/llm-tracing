@@ -1,0 +1,84 @@
+# llm-characterization experiment configuration
+# ==============================================
+# First milestone: 1 model × 1 quantization × 1 affinity × 1 thread count × 5 runs
+#
+# IMPORTANT: Update paths to match your actual model locations before running.
+
+# Full path to llama-bench binary
+llama_bench_binary: "/home/ihtgoot/project/llama.cpp/build/bin/llama-bench"
+
+# Optional: for future llama-cli experiments
+# llama_cli_binary: "/home/ihtgoot/project/llama.cpp/build/bin/llama-cli"
+
+# Where to write results (relative to working directory, or absolute)
+output_dir: "results"
+
+experiments:
+  # ── Models ──────────────────────────────────────────────────────────────
+  # Only models that actually exist on disk should be listed here.
+  # model.quantization is a LABEL only — the model file is already quantized.
+  # Do not auto-convert models.
+  models:
+    - name: "gemma3-270m-Q8_0"
+      path: "/home/ihtgoot/.cache/huggingface/hub/models--ggml-org--gemma-3-270m-it-GGUF/snapshots/e7647be17ae1108f2f605ed061ca0608b171afff/gemma-3-270m-it-Q8_0.gguf"
+      quantization: "Q8_0"
+
+  # ── Thread counts ────────────────────────────────────────────────────────
+  # Step 12 (first milestone): single thread count
+  # Step 13: uncomment additional values
+  threads:
+    - 4
+    # - 1
+    # - 2
+    # - 8
+    # - 16
+
+  # ── CPU affinity ─────────────────────────────────────────────────────────
+  # "none" = no affinity (OS scheduler decides)
+  # "0-3"  = CPUs 0,1,2,3 (P-cores on i7-14700HX)
+  # "16-19" = CPUs 16,17,18,19 (E-cores on i7-14700HX)
+  #
+  # i7-14700HX topology (from /sys inspection):
+  #   CPUs 0-15:  P-cores (core_id 0-28, step 4, with HT)
+  #   CPUs 16-27: E-cores (core_id 32-43)
+  affinity:
+    - "none"
+    # - "0-7"    # 4 P-cores (HT pairs)
+    # - "16-23"  # 4 E-cores
+
+  # ── Repetition control ───────────────────────────────────────────────────
+  # warmup_runs: discarded from aggregate stats but RECORDED in CSV (is_warmup=1)
+  # measurement_runs: used for aggregate statistics
+  warmup_runs: 2
+  measurement_runs: 5
+
+  # ── Per-run timeout (seconds) ─────────────────────────────────────────────
+  timeout_seconds: 600
+
+  # ── Workload parameters ───────────────────────────────────────────────────
+  # n_prompt: tokens for prompt processing test (PP)
+  # n_gen: tokens for generation test (TG)
+  # These correspond to llama-bench -p and -n flags.
+  n_prompt: 512
+  n_gen: 128
+
+  # Batch sizes: llama-bench -b and -ub
+  batch_size: 512
+  ubatch_size: 512
+
+  # Model loading mode: mmap|mlock|none
+  # mmap = memory-mapped (default; lazy loading; file-backed RSS)
+  # mlock = mmap + mlock (prevents paging; all weights in RAM)
+  load_mode: "mmap"
+
+  # ── perf configuration ────────────────────────────────────────────────────
+  perf_enabled: true
+
+  # Hardware events: requires perf_event_paranoia <= 1 or sudo
+  # Run: echo 1 | sudo tee /proc/sys/kernel/perf_event_paranoia
+  # to enable without sudo.
+  perf_hardware_events: true
+
+  # Uncore IMC DRAM bandwidth events: require root
+  # Only enable if running as root or with CAP_PERFMON
+  perf_uncore_events: false
