@@ -19,9 +19,9 @@ experiments:
   # model.quantization is a LABEL only — the model file is already quantized.
   # Do not auto-convert models.
   models:
-    - name: "gemma3-270m-Q8_0"
-      path: "/home/ihtgoot/.cache/huggingface/hub/models--ggml-org--gemma-3-270m-it-GGUF/snapshots/e7647be17ae1108f2f605ed061ca0608b171afff/gemma-3-270m-it-Q8_0.gguf"
-      quantization: "Q8_0"
+    - name: "gemma-2-2b-it-Q4_K_M"
+      path: "/home/ihtgoot/project/ReserchPaper/llm-characterization/models/gemma-2-2b-it-Q4_K_M.gguf"
+      quantization: "Q4_K_M"
 
   # ── Thread counts ────────────────────────────────────────────────────────
   # Step 12 (first milestone): single thread count

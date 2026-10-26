@@ -10,15 +10,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
 LLAMA_BENCH="${1:-/home/ihtgoot/project/llama.cpp/build/bin/llama-bench}"
-MODEL_PATH="${2:-/home/ihtgoot/.cache/huggingface/hub/models--ggml-org--gemma-3-270m-it-GGUF/snapshots/e7647be17ae1108f2f605ed061ca0608b171afff/gemma-3-270m-it-Q8_0.gguf}"
+MODEL_PATH="${2:-/home/ihtgoot/project/ReserchPaper/llm-characterization/models/gemma-2-2b-it-Q4_K_M.gguf}"
 
 PASS=0
 FAIL=0
 WARN=0
 
-ok()   { echo "  [OK]   $*"; ((PASS++)); }
-fail() { echo "  [FAIL] $*"; ((FAIL++)); }
-warn() { echo "  [WARN] $*"; ((WARN++)); }
+ok()   { echo "  [OK]   $*"; ((PASS+=1)); }
+fail() { echo "  [FAIL] $*"; ((FAIL+=1)); }
+warn() { echo "  [WARN] $*"; ((WARN+=1)); }
 
 echo "=== llm-characterization environment check ==="
 echo ""
@@ -35,7 +35,7 @@ if [[ -f "$LLAMA_BENCH" ]]; then
 
     # Try running --version
     LIBDIR="$(dirname "$LLAMA_BENCH")"
-    VER=$(LD_LIBRARY_PATH="$LIBDIR" "$LLAMA_BENCH" --version 2>&1 | head -2 || true)
+    VER=$(LD_LIBRARY_PATH="$LIBDIR" "$LLAMA_BENCH" -h 2>&1 | head -n 2) || true
     if [[ -n "$VER" ]]; then
         ok "Version: $(echo "$VER" | tr '\n' ' ')"
     else
